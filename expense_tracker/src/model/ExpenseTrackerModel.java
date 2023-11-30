@@ -26,12 +26,16 @@ public class ExpenseTrackerModel {
     transactions.add(t);
     // The previous filter is no longer valid.
     matchedFilterIndices.clear();
+
+    stateChanged();
   }
 
   public void removeTransaction(Transaction t) {
     transactions.remove(t);
     // The previous filter is no longer valid.
     matchedFilterIndices.clear();
+
+    stateChanged();
   }
 
   public List<Transaction> getTransactions() {
@@ -52,6 +56,8 @@ public class ExpenseTrackerModel {
       // For encapsulation, copy in the input list 
       this.matchedFilterIndices.clear();
       this.matchedFilterIndices.addAll(newMatchedFilterIndices);
+
+      stateChanged();
   }
 
   public List<Integer> getMatchedFilterIndices() {
@@ -60,6 +66,8 @@ public class ExpenseTrackerModel {
       copyOfMatchedFilterIndices.addAll(this.matchedFilterIndices);
       return copyOfMatchedFilterIndices;
   }
+
+  private List<ExpenseTrackerModelListener> listeners = new ArrayList<>();
 
   /**
    * Registers the given ExpenseTrackerModelListener for
@@ -72,27 +80,32 @@ public class ExpenseTrackerModel {
   public boolean register(ExpenseTrackerModelListener listener) {
       // For the Observable class, this is one of the methods.
       //
-      // TODO
+      if (listener != null && !listeners.contains(listener)) {
+        listeners.add(listener);
+        return true;
+    }
       return false;
   }
 
   public int numberOfListeners() {
       // For testing, this is one of the methods.
       //
-      //TODO
-      return 0;
+      return listeners.size();
+      //return 0;
   }
 
   public boolean containsListener(ExpenseTrackerModelListener listener) {
       // For testing, this is one of the methods.
       //
-      //TODO
-      return false;
+      return listeners.contains(listener);
+      //return false;
   }
 
   protected void stateChanged() {
       // For the Observable class, this is one of the methods.
       //
-      //TODO
+      for (ExpenseTrackerModelListener listener : listeners) {
+        listener.update(this);
+    }
   }
 }
