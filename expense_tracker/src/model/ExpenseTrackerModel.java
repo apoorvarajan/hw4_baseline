@@ -3,7 +3,11 @@ package model;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
+/**
+ * Represents the model for the expense tracker application.
+ * Manages the list of transactions and provides methods for interacting with the data.
+ * Implements the Observer design pattern where it acts as the Observable class.
+ */
 public class ExpenseTrackerModel {
 
   //encapsulation - data integrity
