@@ -16,12 +16,17 @@ public class ExpenseTrackerModel {
 
   // This is applying the Observer design pattern.                          
   // Specifically, this is the Observable class. 
-    
+    /**
+     * Constructs a new ExpenseTrackerModel with an empty list of transactions.
+     */
   public ExpenseTrackerModel() {
     transactions = new ArrayList<Transaction>();
     matchedFilterIndices = new ArrayList<Integer>();
   }
 
+/**
+     * Adds a new transaction to the list of transactions.
+     */
   public void addTransaction(Transaction t) {
     // Perform input validation to guarantee that all transactions added are non-null.
     if (t == null) {
@@ -31,22 +36,29 @@ public class ExpenseTrackerModel {
     // The previous filter is no longer valid.
     matchedFilterIndices.clear();
 
-    stateChanged();
+    this.stateChanged();
   }
-
+    /**
+     * Removes a transaction from the list of transactions.
+     */
   public void removeTransaction(Transaction t) {
     transactions.remove(t);
     // The previous filter is no longer valid.
     matchedFilterIndices.clear();
 
-    stateChanged();
+    this.stateChanged();
   }
-
+    /**
+     * Returns an unmodifiable view of the list of transactions.
+     */
   public List<Transaction> getTransactions() {
     //encapsulation - data integrity
     return Collections.unmodifiableList(new ArrayList<>(transactions));
   }
 
+    /**
+     * Sets the matched filter indices for the model.
+     */
   public void setMatchedFilterIndices(List<Integer> newMatchedFilterIndices) {
       // Perform input validation
       if (newMatchedFilterIndices == null) {
@@ -61,9 +73,11 @@ public class ExpenseTrackerModel {
       this.matchedFilterIndices.clear();
       this.matchedFilterIndices.addAll(newMatchedFilterIndices);
 
-      stateChanged();
+      this.stateChanged();
   }
-
+    /**
+     * Returns a copy of the current list of matched filter indices.
+     */
   public List<Integer> getMatchedFilterIndices() {
       // For encapsulation, copy out the output list
       List<Integer> copyOfMatchedFilterIndices = new ArrayList<Integer>();
@@ -91,6 +105,9 @@ public class ExpenseTrackerModel {
       return false;
   }
 
+    /**
+     * Returns the number of registered listeners.
+     */
   public int numberOfListeners() {
       // For testing, this is one of the methods.
       //
@@ -98,6 +115,9 @@ public class ExpenseTrackerModel {
       //return 0;
   }
 
+    /**
+     * Checks if the given listener is registered.
+     */
   public boolean containsListener(ExpenseTrackerModelListener listener) {
       // For testing, this is one of the methods.
       //
@@ -105,6 +125,10 @@ public class ExpenseTrackerModel {
       //return false;
   }
 
+    /**
+     * Notifies all registered listeners that the state of the model has changed.
+     * Invokes the `update` method on each listener.
+     */
   protected void stateChanged() {
       // For the Observable class, this is one of the methods.
       //
